@@ -207,7 +207,12 @@ abstract class AdminerBase
 
 	public abstract function databasesPrint($missing);
 
-	public abstract function printTablesFilter();
+	public function printTablesFilter() {
+		echo "<div class='tables-filter jsonly'>"
+			. "<input id='tables-filter' type='search' class='input' autocomplete='off' placeholder='" . lang('Table') . "'>"
+			. script("initTablesFilter(" . json_encode($this->database()) . ");")
+			. "</div>\n";
+	}
 
 	public abstract function tablesPrint(array $tables);
 
