@@ -48,7 +48,7 @@ function linked_filename(string $name, array $file_paths): ?string
 {
 	$version = "";
 	foreach ($file_paths as $file_path) {
-		$full_path = __DIR__ . "/../$file_path";
+		$full_path = getcwd() . "/$file_path";
 
 		if (file_exists($full_path)) {
 			$version .= $file_path . filemtime($full_path);
