@@ -11,7 +11,7 @@ if (isset($_GET["pgsql"])) {
 	if (extension_loaded("pgsql") && $_GET["ext"] != "pdo") {
 		define("AdminNeo\DRIVER_EXTENSION", "PgSQL");
 
-		class PgSqlConnection extends Connection
+		class PgSqlConnectionBase extends Connection
 		{
 			/** @var int */
 			public $timeout = 0;
@@ -144,6 +144,25 @@ if (isset($_GET["pgsql"])) {
 
 				return $result ? h($result) : null;
 			}
+
+			/**
+			 * Copies data from array into a table.
+			 *
+			 * @param list<string> $rows
+			 */
+			public function copyFrom(string $table, array $rows): bool
+			{
+				$this->error = "";
+				set_error_handler(function ($errno, $error) {
+					$this->error = ini_bool("html_errors") ? html_entity_decode($error) : $error;
+				});
+
+				$result = pg_copy_from($this->connection, $table, $rows);
+
+				restore_error_handler();
+
+				return $result;
+			}
 		}
 
 		class PgSqlResult extends Result
@@ -218,7 +237,7 @@ if (isset($_GET["pgsql"])) {
 	} elseif (extension_loaded("pdo_pgsql")) {
 		define("AdminNeo\DRIVER_EXTENSION", "PDO_PgSQL");
 
-		class PgSqlConnection extends PdoConnection
+		class PgSqlConnectionBase extends PdoConnection
 		{
 			public $timeout = 0;
 
@@ -267,9 +286,35 @@ if (isset($_GET["pgsql"])) {
 				return null;
 			}
 
+			public function copyFrom(string $table, array $rows): bool
+			{
+				$result = $this->pdo->pgsqlCopyFromArray($table, $rows);
+				$this->error = $this->pdo->errorInfo()[2] ?? "";
+
+				return $result;
+			}
+
 			public function close(): void
 			{
 				//
+			}
+		}
+	}
+
+	if (class_exists('AdminNeo\PgSqlConnectionBase')) {
+		class PgSqlConnection extends PgSqlConnectionBase
+		{
+			public function multiQuery(string $query): bool
+			{
+				// no ^ to allow leading comments
+				if (preg_match('~\bCOPY\s+(.+?)\s+FROM\s+stdin;\n?(.*)\n\\\\\.$~is', str_replace("\r\n", "\n", $query), $matches)) {
+					$rows = explode("\n", $matches[2]);
+					$this->affectedRows = count($rows);
+
+					return $this->copyFrom($matches[1], $rows);
+				}
+
+				return parent::multiQuery($query);
 			}
 		}
 	}
