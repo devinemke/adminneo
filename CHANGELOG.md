@@ -1,6 +1,13 @@
 Changelog
 =========
 
+AdminNeo 5.4.0
+--------------
+
+### Changes
+
+- Do not edit NULL values by Modify (by @vrana)
+
 AdminNeo 5.3.0 (2026-05-07)
 ---------------------------
 

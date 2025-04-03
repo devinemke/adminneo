@@ -490,24 +490,24 @@ if (!$columns && support("table")) {
 						}
 
 						$null_val = $val === null;
-						$val = select_value($val, $link, $field, $text_length);
+						$html = select_value($val, $link, $field, $text_length);
 						$escaped_key = bracket_escape($key);
 						$id = h("val[$unique_idf][$escaped_key]");
-						$value = $_POST["val"][$unique_idf][$escaped_key] ?? null;
-						$editable = !is_array($row[$key]) && is_utf8($val) && $rows[$n][$key] == $row[$key] && !$functions[$key] && !($field["generated"] ?? false);
+						$posted = $_POST["val"][$unique_idf][$escaped_key] ?? null;
+						$editable = !is_array($row[$key]) && is_utf8($html) && $rows[$n][$key] == $row[$key] && !$functions[$key] && !($field["generated"] ?? false);
 						$text = $field && preg_match('~text|json|lob~', $field["type"]);
 						$numeric_type = ($field && preg_match(number_type(), $field["type"])) ||
 							(!$field && preg_match('~^ROUND|CHAR_LENGTH|FLOOR|CEIL|UNIX_TIMESTAMP|TIME_TO_SEC|SUM|MIN|MAX|AVG|COUNT\(~', $key));
-						$class = $numeric_type && ($null_val || is_numeric(strip_tags($val))) ? "class='number'" : "";
+						$class = $numeric_type && ($null_val || is_numeric(strip_tags($html))) ? "class='number'" : "";
 						echo "<td id='$id' $class";
-						if (($_GET["modify"] && $editable) || $value !== null) {
-							$h_value = h($value !== null ? $value : $row[$key]);
+						if (($_GET["modify"] && $editable && !$null_val) || $posted !== null) {
+							$h_value = h($posted !== null ? $posted : $row[$key]);
 							echo ">" . ($text ? "<textarea name='$id' cols='30' rows='" . (substr_count($row[$key], "\n") + 1) . "'>$h_value</textarea>" : "<input class='input' name='$id' value='$h_value' size='$lengths[$key]'>");
 						} else {
-							$long = strpos($val, "<i>…</i>");
+							$long = strpos($html, "<i>…</i>");
 							echo " data-text='" . ($long ? 2 : ($text ? 1 : 0)) . "'"
 								. ($editable ? "" : " data-warning='" . h(lang('Use edit link to modify this value.')) . "'")
-								. ">$val"
+								. ">$html"
 							;
 						}
 					}
