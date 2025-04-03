@@ -26,6 +26,7 @@ stop_session();
 
 $title = isset($_GET["import"]) ? lang('Import') : lang('SQL command');
 page_header($title, [$title]);
+$line_comment = "--" . (DIALECT == "sql" ? " " : "");
 
 if ($_POST) {
 	$fp = false;
@@ -61,7 +62,7 @@ if ($_POST) {
 			}
 		}
 
-		$space = "(?:\\s|/\\*[\s\S]*?\\*/|(?:#|-- )[^\n]*\n?|--\r?\n)";
+		$space = "(?:\\s|/\\*[\s\S]*?\\*/|(?:#|$line_comment)[^\n]*\n?|--\r?\n)";
 		$delimiter = ";";
 		$offset = 0;
 		$empty = true;
@@ -77,7 +78,7 @@ if ($_POST) {
 
 		$commands = 0;
 		$errors = [];
-		$parse = '[\'"' . (DIALECT == "sql" ? '`#' : (DIALECT == "sqlite" ? '`[' : (DIALECT == "mssql" ? '[' : ''))) . ']|/\*|-- |$' . (DIALECT == "pgsql" ? '|\$[^$]*\$' : '');
+		$parse = '[\'"' . (DIALECT == "sql" ? '`#' : (DIALECT == "sqlite" ? '`[' : (DIALECT == "mssql" ? '[' : ''))) . ']|/\*|' . $line_comment . '|$' . (DIALECT == "pgsql" ? '|\$[^$]*\$' : '');
 		$total_start = microtime(true);
 		$dump_format = Admin::get()->getDumpFormats();
 		unset($dump_format["sql"]);
@@ -112,7 +113,7 @@ if ($_POST) {
 							$pattern .= '\*/';
 						} elseif ($found == '[') {
 							$pattern .= ']';
-						} elseif (preg_match('~^-- |^#~', $found)) {
+						} elseif (preg_match("~^$line_comment|^#~", $found)) {
 							$pattern .= "\n";
 						} else {
 							$pattern .= preg_quote($found) . ($c_style_escapes ? "|\\\\." : "");
@@ -341,7 +342,7 @@ if (!isset($_GET["import"]) && $history) {
 		$key = key($history);
 		list($q, $time, $elapsed) = $val;
 
-		echo " <pre><code class='jush-" . DIALECT . "'>", truncate_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace('~^(#|-- ).*~m', '', $q))))), "</code></pre>";
+		echo " <pre><code class='jush-" . DIALECT . "'>", truncate_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace("~^(#|$line_comment).*~m", '', $q))))), "</code></pre>";
 		echo '<p class="links">';
 		echo "<a href='" . h(ME . "sql=&history=$key") . "'>" . icon("edit") . lang('Edit') . "</a>";
 		echo " <span class='time' title='" . @date('Y-m-d', $time) . "'>" . @date("H:i:s", $time) . // @ - time zone may be not set
