@@ -1000,6 +1000,7 @@ class Admin extends Origin
 				$keys = [];
 				$generatedKeys = [];
 				$suffix = "";
+				$count = 0;
 
 				while ($row = ($table != '' ? $result->fetchAssoc() : $result->fetchRow())) {
 					if (!$keys) {
@@ -1048,13 +1049,19 @@ class Admin extends Origin
 
 						if (!$buffer) {
 							$buffer = $insert . $s;
-						} elseif (strlen($buffer) + 4 + strlen($s) + strlen($suffix) < $max_packet) { // 4 - length specification
+						} elseif (
+							DIALECT == "mssql" ?
+							$count % 1000 != 0 : // https://learn.microsoft.com/en-us/sql/t-sql/queries/table-value-constructor-transact-sql#limitations-and-restrictions
+							strlen($buffer) + 4 + strlen($s) + strlen($suffix) < $max_packet // 4 - length specification
+						) {
 							$buffer .= ",$s";
 						} else {
 							echo $buffer . $suffix;
 							$buffer = $insert . $s;
 						}
 					}
+
+					$count++;
 				}
 				if ($buffer) {
 					echo $buffer . $suffix;

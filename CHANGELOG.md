@@ -8,6 +8,7 @@ AdminNeo 5.4.0
 
 - Do not edit NULL values by Modify (by @vrana)
 - PostgreSQL: Support COPY FROM stdin in SQL query (by @vrana)
+- MS SQL: Limit one INSERT in export to 1000 rows (by @vrana)
 - non-MySQL: Parse '--' without trailing space as comment in SQL command (by @vrana)
 
 AdminNeo 5.3.0 (2026-05-07)
