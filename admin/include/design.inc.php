@@ -4,10 +4,6 @@ namespace AdminNeo;
 
 use Exception;
 
-if (!ob_get_level()) {
-	ob_start(null, 4096);
-}
-
 /**
  * Prints page header.
  *
@@ -16,6 +12,8 @@ if (!ob_get_level()) {
  */
 function page_header(string $title, $breadcrumb = []): void
 {
+	@ini_set("zlib.output_compression", "1"); // @ - may be disabled
+
 	page_headers();
 	if (is_ajax() && Admin::get()->getErrors()) {
 		page_messages();
