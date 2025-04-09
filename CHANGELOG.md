@@ -7,6 +7,7 @@ AdminNeo 5.4.0
 ### Changes
 
 - Do not edit NULL values by Modify (by @vrana)
+- Do not highlight table with name "0" as active everywhere (by @vrana)
 - PostgreSQL: Support COPY FROM stdin in SQL query (by @vrana)
 - MS SQL: Limit one INSERT in export to 1000 rows (by @vrana)
 - non-MySQL: Parse '--' without trailing space as comment in SQL command (by @vrana)
