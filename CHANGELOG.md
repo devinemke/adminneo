@@ -15,6 +15,7 @@ AdminNeo 5.4.0
 ### Bugfixes
 
 - Fix highlighting current table in menu when editing Check and View (by @vrana)
+- PostgreSQL PDO: Fix bytea without primary key (by @vrana)
 
 AdminNeo 5.3.0 (2026-05-07)
 ---------------------------
