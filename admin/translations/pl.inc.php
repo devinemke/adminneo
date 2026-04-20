@@ -421,6 +421,6 @@ return [
 	'Invalid OTP code.' => 'Nieprawidłowy kod OTP.',
 	'Access denied.' => 'Odmowa dostępu.',
 	// Use the phrases from https://gemini.google.com/
-	'Ask Gemini' => 'Zapytaj Gemini',
+	'Ask %s' => 'Zapytaj %s',
 	'Just a sec...' => 'Chwileczkę...',
 ];

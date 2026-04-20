@@ -413,6 +413,6 @@ return [
 	'Data table' => 'Xx',
 	'Edit form' => 'Xx',
 	// Use the phrases from https://gemini.google.com/
-	'Ask Gemini' => 'Xx',
+	'Ask %s' => 'Xx',
 	'Just a sec...' => 'Xx...',
 ];
