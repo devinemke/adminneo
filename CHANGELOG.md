@@ -6,12 +6,13 @@ AdminNeo 5.3.0
 
 ### Changes
 
+- Add OpenWebUiPlugin - AI prompt in SQL command generating the queries with Open WebUI (by @brammeleman)
 - More secure randomness on PHP5 (by @pavetheway91)
 - 256 bits of entropy in all random strings
-- SystemForeignKeysPlugin: Add support for new system tables (by @vrana).
-- Add more Katalon tests for MySQL and SQLite (by @vrana).
-- Add Katalon tests for MariaDB, PostgreSQL, MS SQL and Elasticsearch (by @vrana).
-- Declare compatibility with PHP 8.5 (by @vitaliytv).
+- SystemForeignKeysPlugin: Add support for new system tables (by @vrana)
+- Add more Katalon tests for MySQL and SQLite (by @vrana)
+- Add Katalon tests for MariaDB, PostgreSQL, MS SQL and Elasticsearch (by @vrana)
+- Declare compatibility with PHP 8.5 (by @vitaliytv)
 
 ### Bugfixes
 

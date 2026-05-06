@@ -440,6 +440,6 @@ return [
 	'Data table' => 'Gegevenstabel',
 	'Edit form' => 'Formulier bewerken',
 	// Use the phrases from https://gemini.google.com/
-	'Ask Gemini' => 'Vraag het aan Gemini',
+	'Ask %s' => 'Vraag het aan %s',
 	'Just a sec...' => 'Een momentje.',
 ];

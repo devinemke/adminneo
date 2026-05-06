@@ -445,6 +445,6 @@ return [
 	'Data table' => 'Dátová tabuľka',
 	'Edit form' => 'Editační formulář',
 	// Use the phrases from https://gemini.google.com/
-	'Ask Gemini' => 'Opýtajte sa Gemini',
+	'Ask %s' => 'Opýtajte sa %s',
 	'Just a sec...' => 'Moment...',
 ];

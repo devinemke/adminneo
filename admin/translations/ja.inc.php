@@ -385,6 +385,6 @@ return [
 	'Invalid OTP code.' => '無効なOTPコードです。',
 	'Access denied.' => 'アクセスが拒否されました。',
 	// Use the phrases from https://gemini.google.com/
-	'Ask Gemini' => 'Gemini に聞く',
+	'Ask %s' => '%s に聞く',
 	'Just a sec...' => 'しばらくお待ち下さい...',
 ];
