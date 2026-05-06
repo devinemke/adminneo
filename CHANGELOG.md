@@ -13,6 +13,7 @@ AdminNeo 5.3.0
 - Add more Katalon tests for MySQL and SQLite (by @vrana)
 - Add Katalon tests for MariaDB, PostgreSQL, MS SQL and Elasticsearch (by @vrana)
 - Declare compatibility with PHP 8.5 (by @vitaliytv)
+- MySQL: Format view definition query (issue #180)
 
 ### Bugfixes
 

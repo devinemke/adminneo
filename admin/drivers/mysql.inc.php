@@ -774,7 +774,14 @@ ORDER BY ordinal_position";
 	* @return array{select:string}
 	*/
 	function view($name) {
-		return ["select" => preg_replace('~^(?:[^`]|`[^`]*`)*\s+AS\s+~isU', '', Connection::get()->getValue("SHOW CREATE VIEW " . table($name), 1))];
+		$select = Connection::get()->getValue("SHOW CREATE VIEW " . table($name), 1);
+
+		// Extract definition query.
+		$literals = '(?:[^`\']|`[^`]*`|\'[^\']*\')*';
+		$select = preg_replace("~^$literals\\s+AS\\s+~isU", "", $select);
+
+		// MySQL/MariaDB does not keep formatting, so we improve readability by adding new lines and indents.
+		return ["select" => format_sql($select)];
 	}
 
 	/** Get sorted grouped list of collations
@@ -1193,6 +1200,18 @@ ORDER BY ordinal_position";
 		return $table_status["Engine"] == "InnoDB" && !$where ? (int)$table_status["Rows"] : null;
 	}
 
+	function format_sql(string $query): string
+	{
+		$literals = '(?:[^`\']|`[^`]*`|\'[^\']*\')*';
+		$keywords = 'FROM|WHERE|HAVING|GROUP\s+BY|ORDER\s+BY|(NATURAL\s+)?((LEFT|RIGHT)\s+)?((INNER|OUTER|CROSS)\s+)?JOIN';
+
+		$query = preg_replace("~($literals)\\s+(AS\\s+SELECT)~isU", "$1 AS\nSELECT", $query);
+		$query = preg_replace("~($literals)\\s+($keywords)~isU", "$1\n$2", $query);
+		$query = preg_replace("~($literals),~isU", "$1,\n  ", $query);
+
+		return $query;
+	}
+
 	/** Get SQL command to create table
 	* @param string
 	* @param bool
@@ -1200,11 +1219,12 @@ ORDER BY ordinal_position";
 	* @return string
 	*/
 	function create_sql($table, $auto_increment, $style) {
-		$return = Connection::get()->getValue("SHOW CREATE TABLE " . table($table), 1);
+		$query = Connection::get()->getValue("SHOW CREATE TABLE " . table($table), 1);
 		if (!$auto_increment) {
-			$return = preg_replace('~ AUTO_INCREMENT=\d+~', '', $return); //! skip comments
+			$query = preg_replace('~ AUTO_INCREMENT=\d+~', '', $query); //! skip comments
 		}
-		return $return;
+
+		return !str_contains($query, "\n") ? format_sql($query) : $query;
 	}
 
 	/** Get SQL command to truncate table
