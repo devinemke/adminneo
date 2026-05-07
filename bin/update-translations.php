@@ -115,13 +115,24 @@ foreach ($languages as $language => $dummy) {
 			$variants = is_string($translation) ? [$translation] : $translation;
 
 			foreach ($variants as $variant) {
+				$endWithPeriod = substr($en, -1, 1) == ".";
+
+				// Ignore periods in DB abbreviation.
+				if (!$endWithPeriod) {
+					$variant = preg_replace('~Β.Δ.$~', "ΒΔ", $variant);
+				}
+
 				// Check forbidden periods.
 				if (!$period && preg_match("~\.$~", $variant)) {
 					print_warning($filename, $term, "Period is forbidden");
 				}
 
-				// Check mismatched periods. Period is optional in 'ja'.
-				if ($period && $language != "ja" && ((substr($en, -1, 1) == ".") xor preg_match("~$period$~", $variant))) {
+				// Check mismatched periods. Period is optional in 'ja' and can mismatch in date/time formatting.
+				if ($period &&
+					$language != "ja" &&
+					!preg_match('~^[0-9.$YMD\-]+$~', $en) &&
+					($endWithPeriod xor preg_match("~$period$~", $variant)))
+				{
 					print_warning($filename, $term, "Not matching period");
 				}
 
