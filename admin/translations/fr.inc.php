@@ -81,6 +81,7 @@ return [
 
 	// Structure.
 	'Column' => 'Colonne',
+	'Columns' => 'Colonnes',
 	'Routine' => 'Routine',
 	'Grant' => 'Grant',
 	'Revoke' => 'Revoke',

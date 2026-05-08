@@ -73,6 +73,7 @@ return [
 
 	// Structure.
 	'Column' => 'Colonna',
+	'Columns' => 'Colonne',
 	'Routine' => 'Routine',
 	'Grant' => 'Permetti',
 	'Revoke' => 'Revoca',

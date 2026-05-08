@@ -83,6 +83,7 @@ return [
 
 	// Structure.
 	'Column' => 'Sloupec',
+	'Columns' => 'Sloupce',
 	'Routine' => 'Procedura',
 	'Grant' => 'Povolit',
 	'Revoke' => 'Zakázat',

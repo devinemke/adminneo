@@ -75,6 +75,7 @@ return [
 
 	// Structure.
 	'Column' => 'Xx',
+	'Columns' => 'Xx',
 	'Routine' => 'Xx',
 	'Grant' => 'Xx',
 	'Revoke' => 'Xx',

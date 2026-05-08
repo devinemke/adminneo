@@ -83,6 +83,7 @@ return [
 
 	// Structure.
 	'Column' => 'Kolumna',
+	'Columns' => 'Kolumny',
 	'Routine' => 'Procedura',
 	'Grant' => 'Uprawnienia',
 	'Revoke' => 'Usuń uprawnienia',
