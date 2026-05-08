@@ -1285,7 +1285,7 @@ class Admin extends Origin
 
 			echo "<li>";
 
-			$active = in_array($table, [$_GET["table"], $_GET["select"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"]]);
+			$active = in_array($table, [$_GET["table"], $_GET["select"], $_GET["create"], $_GET["indexes"], $_GET["foreign"], $_GET["trigger"], $_GET["check"], $_GET["view"]]);
 			$class = "primary" . (is_view($status) ? " view" : "");
 			$supportStructure = support("table") || support("indexes");
 			$selectUrl = h(ME) . "select=" . urlencode($table);

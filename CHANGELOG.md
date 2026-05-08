@@ -11,6 +11,10 @@ AdminNeo 5.4.0
 - MS SQL: Limit one INSERT in export to 1000 rows (by @vrana)
 - non-MySQL: Parse '--' without trailing space as comment in SQL command (by @vrana)
 
+### Bugfixes
+
+- Fix highlighting current table in menu when editing Check and View (by @vrana)
+
 AdminNeo 5.3.0 (2026-05-07)
 ---------------------------
 
