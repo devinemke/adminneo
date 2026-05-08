@@ -146,6 +146,7 @@ return [
 
 	// Databases.
 	'Database' => 'Baza danych',
+	'database' => 'baza danych',
 	'DB' => 'BD',
 	'Use' => 'Wybierz',
 	'Invalid database.' => 'Nie znaleziono bazy danych.',
@@ -164,6 +165,7 @@ return [
 
 	// Schemas (PostgreSQL, MS SQL).
 	'Schema' => 'Schemat',
+	'schema' => 'schemat',
 	'Schemas' => 'Schematy',
 	'No schemas.' => 'Brak schematów.',
 	'Show schema' => 'Pokaż schemat',

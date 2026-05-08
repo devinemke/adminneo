@@ -1237,7 +1237,7 @@ class Admin extends Origin
 
 		echo "<div>";
 		if ($databases) {
-			echo "<select id='database-select' name='db' title='", lang('Database'), "'>" . optionlist(["" => lang('Database')] + $databases, DB) . "</select>"
+			echo "<select id='database-select' name='db' title='", lang('Database'), "'>" . optionlist(["" => "(" . lang('database') . ")"] + $databases, DB) . "</select>"
 				. script("mixin(gid('database-select'), {onmousedown: dbMouseDown, onchange: dbChange});");
 		} else {
 			echo "<input id='database-select' class='input' name='db' value='" . h(DB) . "' title='", lang('Database'), "' autocapitalize='off'>\n";
@@ -1247,7 +1247,7 @@ class Admin extends Origin
 
 		if (support("scheme") && $missing != "db" && DB != "" && Connection::get()->selectDatabase(DB)) {
 			echo "<div>";
-			echo "<select id='scheme-select' name='ns' title='", lang('Schema'), "'>" . optionlist(["" => lang('Schema')] + $this->admin->getSchemas(), $_GET["ns"]) . "</select>"
+			echo "<select id='scheme-select' name='ns' title='", lang('Schema'), "'>" . optionlist(["" => "(" . lang('schema') . ")"] + $this->admin->getSchemas(), $_GET["ns"]) . "</select>"
 				. script("mixin(gid('scheme-select'), {onmousedown: dbMouseDown, onchange: dbChange});");
 			echo "</div>";
 

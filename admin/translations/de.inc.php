@@ -141,6 +141,7 @@ return [
 
 	// Databases.
 	'Database' => 'Datenbank',
+	'database' => 'Datenbank',
 	'DB' => 'DB',
 	'Use' => 'Auswählen',
 	'Invalid database.' => 'Datenbank ungültig.',
@@ -159,6 +160,7 @@ return [
 
 	// Schemas (PostgreSQL, MS SQL).
 	'Schema' => 'Schema',
+	'schema' => 'Schema',
 	'Schemas' => 'Schemata',
 	'No schemas.' => 'Keine Schemata.',
 	'Show schema' => 'Zeige Schemata',

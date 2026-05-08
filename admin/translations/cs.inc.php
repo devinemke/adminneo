@@ -146,6 +146,7 @@ return [
 
 	// Databases.
 	'Database' => 'Databáze',
+	'database' => 'databáze',
 	'DB' => 'DB',
 	'Use' => 'Vybrat',
 	'Invalid database.' => 'Nesprávná databáze.',
@@ -164,6 +165,7 @@ return [
 
 	// Schemas (PostgreSQL, MS SQL).
 	'Schema' => 'Schéma',
+	'schema' => 'schéma',
 	'Schemas' => 'Schémy',
 	'No schemas.' => 'Žádné schémy.',
 	'Show schema' => 'Zobrazit schéma',
