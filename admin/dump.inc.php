@@ -178,8 +178,8 @@ if (DIALECT == "sql") { //! use insertUpdate() in all drivers
 echo "<tr><th>", lang('Format'), "</th><td>", html_radios("format", Admin::get()->getDumpFormats(), $settings->getParameter("dumpFormat", "sql")), "</td></tr>\n";
 
 if (DIALECT != "sqlite") {
-	echo "<tr><th>", lang('Database'), "</th>";
-	echo "<td>", html_select('db_style', $db_style, $settings->getParameter("dumpDbStyle", DB == "" ? "CREATE" : ""));
+	echo "<tr><th id='label-db'>", lang('Database'), "</th>";
+	echo "<td>", html_select('db_style', $db_style, $settings->getParameter("dumpDbStyle", DB == "" ? "CREATE" : ""), "", "label-db");
 
 	echo "<span class='labels'>";
 	if (support("type")) {
@@ -194,8 +194,8 @@ if (DIALECT != "sqlite") {
 	echo "</span></td></tr>";
 }
 
-echo "<tr><th>", lang('Tables'), "</th><td>";
-echo html_select('table_style', $table_style, $settings->getParameter("dumpTableStyle", "DROP+CREATE"));
+echo "<tr><th id='label-tables'>", lang('Tables'), "</th><td>";
+echo html_select('table_style', $table_style, $settings->getParameter("dumpTableStyle", "DROP+CREATE"), "", "label-tables");
 
 echo " <span class='labels'>";
 echo checkbox("auto_increment", 1, $settings->getParameter("dumpAutoIncrement"), lang('Auto Increment'));
@@ -204,7 +204,7 @@ if (support("trigger")) {
 }
 echo "</span></td></tr>";
 
-echo "<tr><th>", lang('Data'), "</th><td>", html_select("data_style", $data_style, $settings->getParameter("dumpDataStyle", "INSERT")), "</td></tr>";
+echo "<tr><th id='label-data'>", lang('Data'), "</th><td>", html_select("data_style", $data_style, $settings->getParameter("dumpDataStyle", "INSERT"), "", "label-data"), "</td></tr>";
 
 echo "<tr><th>", lang('Output'), "</th><td>", html_radios("output", Admin::get()->getDumpOutputs(), $settings->getParameter("dumpOutput", "file")), "</td></tr>\n";
 echo "</table>\n";

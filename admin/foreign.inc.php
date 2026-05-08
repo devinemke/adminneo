@@ -69,13 +69,13 @@ $target = array_keys(fields(in_array($row["table"], $referencable) ? $row["table
 $onchange = "this.form['change-js'].value = '1'; this.form.submit();";
 
 echo "<p>";
-echo lang('Target table'), ": ", html_select("table", $referencable, $row["table"], $onchange);
+echo "<span id='label-table'>", lang('Target table'), ":</span> ", html_select("table", $referencable, $row["table"], $onchange, "label-table");
 
 if (support("scheme")) {
 	$schemas = array_filter(Admin::get()->getSchemas(), function ($schema) {
 		return !preg_match('~^information_schema$~i', $schema);
 	});
-	echo lang('Schema'), ": ", html_select("ns", $schemas, $row["ns"] != "" ? $row["ns"] : $_GET["ns"], $onchange);
+	echo "<span id='label-schema'>", lang('Schema'), ":</span> ", html_select("ns", $schemas, $row["ns"] != "" ? $row["ns"] : $_GET["ns"], $onchange, "label-schema");
 	if ($row["ns"] != "") {
 		set_schema($orig_schema);
 	}
@@ -86,7 +86,7 @@ if (support("scheme")) {
 			$dbs[] = $db;
 		}
 	}
-	echo lang('DB'), ": ", html_select("db", $dbs, $row["db"] != "" ? $row["db"] : $_GET["db"], $onchange);
+	echo "<span id='label-db'>", lang('DB'), ":</span> ", html_select("db", $dbs, $row["db"] != "" ? $row["db"] : $_GET["db"], $onchange, "label-db");
 }
 
 echo input_hidden("change-js");
@@ -108,8 +108,8 @@ echo "</table>\n";
 echo "<noscript><p><input type='submit' class='button' name='add' value='", lang('Add column'), "'></p></noscript>";
 
 echo "<p>\n";
-echo lang('ON DELETE'), ": ", html_select("on_delete", [-1 => ""] + Driver::get()->getOnActions(), $row["on_delete"]);
-echo lang('ON UPDATE'), ": ", html_select("on_update", [-1 => ""] + Driver::get()->getOnActions(), $row["on_update"]);
+echo "<span id='label-delete'>" . lang('ON DELETE'), ":</span> ", html_select("on_delete", [-1 => ""] + Driver::get()->getOnActions(), $row["on_delete"], "", "label-delete");
+echo "<span id='label-update'>" . lang('ON UPDATE'), ":</span> ", html_select("on_update", [-1 => ""] + Driver::get()->getOnActions(), $row["on_update"], "", "label-update");
 echo doc_link([
 	'sql' => "innodb-foreign-key-constraints.html",
 	'mariadb' => "foreign-keys/",
