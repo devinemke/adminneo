@@ -110,12 +110,23 @@ if (extension_loaded('pdo')) {
 
 		public function fetchAssoc()
 		{
-			return $this->statement->fetch(PDO::FETCH_ASSOC);
+			return $this->fetchArray(PDO::FETCH_ASSOC);
 		}
 
 		public function fetchRow()
 		{
-			return $this->statement->fetch(PDO::FETCH_NUM);
+			return $this->fetchArray(PDO::FETCH_NUM);
+		}
+
+		private function fetchArray(int $mode)
+		{
+			$result = $this->statement->fetch($mode);
+
+			return $result ? array_map([$this, 'unresource'], $result) : $result;
+		}
+
+		private function unresource($value) {
+			return is_resource($value) ? stream_get_contents($value) : $value;
 		}
 
 		public function fetchField()

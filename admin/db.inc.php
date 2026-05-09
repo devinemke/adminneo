@@ -197,8 +197,8 @@ if ($_GET["ns"] === "") {
 			$databases = (support("scheme") ? Admin::get()->getSchemas() : Admin::get()->getDatabases());
 			if (count($databases) != 1 && DIALECT != "sqlite") {
 				$db = (isset($_POST["target"]) ? $_POST["target"] : (support("scheme") ? $_GET["ns"] : DB));
-				echo "<p>" . lang('Move to other database') . ": ";
-				echo ($databases ? html_select("target", $databases, $db) : '<input class="input" name="target" value="' . h($db) . '" autocapitalize="off">');
+				echo "<p><span id='label-move'>" . lang('Move to other database') . ":</span> ";
+				echo ($databases ? html_select("target", $databases, $db, "", "label-move") : '<input class="input" name="target" value="' . h($db) . '" autocapitalize="off">');
 				echo " <input type='submit' class='button' name='move' value='" . lang('Move') . "'>";
 				echo (support("copy") ? " <input type='submit' class='button' name='copy' value='" . lang('Copy') . "'> " . checkbox("overwrite", 1, $_POST["overwrite"], lang('overwrite')) : "");
 				echo "\n";

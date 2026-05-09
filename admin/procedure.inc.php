@@ -55,7 +55,7 @@ echo "<form action='' method='post' id='form'>\n";
 echo "<p>", lang('Name'), ": ";
 echo "<input class='input' name='name' value='", h($row["name"]), "' data-maxlength='64' autocapitalize='off'>";
 if ($routine_languages) {
-	echo lang('Language'), ": ", html_select("language", $routine_languages, $row["language"]);
+	echo "<span id='label-language'>" , lang('Language'), ":</span> ", html_select("language", $routine_languages, $row["language"], "", "label-language");
 }
 echo "<input type='submit' class='button default' value='", lang('Save'), "'>";
 echo "</p>\n";

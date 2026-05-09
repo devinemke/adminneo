@@ -872,7 +872,7 @@ if (isset($_GET["sqlite"])) {
 	function show_status() {
 		$return = [];
 		foreach (get_vals("PRAGMA compile_options") as $option) {
-			$return[] = explode("=", $option, 2);
+			$return[] = explode("=", $option, 2) + ["", ""];
 		}
 		return $return;
 	}

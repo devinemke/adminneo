@@ -175,9 +175,20 @@ function optionlist($options, $selected = null, $use_keys = false) {
 * @return string
 */
 function html_select($name, $options, $value = "", $onchange = "", $labelled_by = "", bool $use_keys = false) {
+	static $label = 0;
+
+	$label_option = "";
+	if (!$labelled_by && substr($options[""] ?? "", 0, 1) == "(") {
+		$label++;
+		$labelled_by = "label-$label";
+		$label_option = "<option value='' id='$labelled_by'>" . h($options[""]);
+
+		unset($options[""]);
+	}
+
 	return "<select name='" . h($name) . "'"
 		. ($labelled_by ? " aria-labelledby='$labelled_by'" : "")
-		. ">" . optionlist($options, $value, $use_keys) . "</select>"
+		. ">" . $label_option . optionlist($options, $value, $use_keys) . "</select>"
 		. ($onchange ? script("qsl('select').onchange = function () { $onchange };", "") : "");
 }
 

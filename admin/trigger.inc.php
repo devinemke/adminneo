@@ -41,19 +41,19 @@ if ($name != "") {
 echo "<form action='' method='post' id='form'>\n";
 echo "<table class='box box-light'>\n";
 
-echo "<tr><th>", lang('Time'), "</th><td>";
-echo html_select("Timing", $trigger_options["Timing"], $row["Timing"], "triggerChange(/^" . preg_quote($TABLE, "/") . "_[ba][iud]$/, '" . js_escape($TABLE) . "', this.form);");
+echo "<tr><th id='label-time'>", lang('Time'), "</th><td>";
+echo html_select("Timing", $trigger_options["Timing"], $row["Timing"], "triggerChange(/^" . preg_quote($TABLE, "/") . "_[ba][iud]$/, '" . js_escape($TABLE) . "', this.form);", "label-time");
 echo "</td></tr>\n";
 
-echo "<tr><th>", lang('Event'), "</th><td>";
-echo html_select("Event", $trigger_options["Event"], $row["Event"], "this.form['Timing'].onchange();");
+echo "<tr><th id='label-event'>", lang('Event'), "</th><td>";
+echo html_select("Event", $trigger_options["Event"], $row["Event"], "this.form['Timing'].onchange();", "label-event");
 if (in_array("UPDATE OF", $trigger_options["Event"])) {
 	echo " <input name='Of' value='" . h($row["Of"]) . "' class='input hidden'>";
 }
 echo "</td></tr>\n";
 
-echo "<tr><th>", lang('Type'), "</th><td>";
-echo html_select("Type", $trigger_options["Type"], $row["Type"]);
+echo "<tr><th id='label-type'>", lang('Type'), "</th><td>";
+echo html_select("Type", $trigger_options["Type"], $row["Type"], "", "label-type");
 echo "</td></tr>\n";
 
 echo "</table>\n";

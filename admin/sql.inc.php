@@ -26,6 +26,7 @@ stop_session();
 
 $title = isset($_GET["import"]) ? lang('Import') : lang('SQL command');
 page_header($title, [$title]);
+$line_comment = "--" . (DIALECT == "sql" ? " " : "");
 
 if ($_POST) {
 	$fp = false;
@@ -61,8 +62,9 @@ if ($_POST) {
 			}
 		}
 
-		$space = "(?:\\s|/\\*[\s\S]*?\\*/|(?:#|-- )[^\n]*\n?|--\r?\n)";
+		$space = "(?:\\s|/\\*[\s\S]*?\\*/|(?:#|$line_comment)[^\n]*\n?|--\r?\n)";
 		$delimiter = ";";
+		$delimiter_length = 1;
 		$offset = 0;
 		$empty = true;
 
@@ -77,14 +79,15 @@ if ($_POST) {
 
 		$commands = 0;
 		$errors = [];
-		$parse = '[\'"' . (DIALECT == "sql" ? '`#' : (DIALECT == "sqlite" ? '`[' : (DIALECT == "mssql" ? '[' : ''))) . ']|/\*|-- |$' . (DIALECT == "pgsql" ? '|\$[^$]*\$' : '');
+		$parse = '[\'"' . (DIALECT == "sql" ? '`#' : (DIALECT == "sqlite" ? '`[' : (DIALECT == "mssql" ? '[' : ''))) . ']|/\*|' . $line_comment . '|$' . (DIALECT == "pgsql" ? '|\$[^$]*\$' : '');
 		$total_start = microtime(true);
 		$dump_format = Admin::get()->getDumpFormats();
 		unset($dump_format["sql"]);
 
 		while ($query != "") {
 			if (!$offset && preg_match("~^$space*+DELIMITER\\s+(\\S+)~i", $query, $match)) {
-				$delimiter = $match[1];
+				$delimiter = preg_quote($match[1]);
+				$delimiter_length = strlen($match[1]);
 
 				$formatted_query = Admin::get()->formatSqlCommandQuery(trim($match[0]));
 				if ($formatted_query != "") {
@@ -92,8 +95,12 @@ if ($_POST) {
 				}
 
 				$query = substr($query, strlen($match[0]));
+			} elseif (!$offset && DIALECT == "pgsql" && preg_match("~^($space*+COPY\\s+)[^;]+\\s+FROM\\s+stdin;~i", $query, $match)) {
+				$delimiter = "\n\\\\\\.\r?\n";
+				$delimiter_length = 3;
+				$offset = strlen($match[0]);
 			} else {
-				preg_match('(' . preg_quote($delimiter) . "\\s*|$parse)", $query, $match, PREG_OFFSET_CAPTURE, $offset); // should always match
+				preg_match("($delimiter\\s*|$parse)", $query, $match, PREG_OFFSET_CAPTURE, $offset); // always matches
 				/** @var int $pos */
 				list($found, $pos) = $match[0];
 				if (!$found && $fp && !feof($fp)) {
@@ -104,7 +111,7 @@ if ($_POST) {
 					}
 					$offset = $pos + strlen($found);
 
-					if ($found && rtrim($found) != $delimiter) { // find matching quote or comment end
+					if ($found && !preg_match("(^$delimiter)", $found)) { // find matching quote or comment end
 						$c_style_escapes = Driver::get()->hasCStyleEscapes() || (DIALECT == "pgsql" && ($pos > 0 && strtolower($query[$pos - 1]) == "e"));
 
 						$pattern = '(';
@@ -112,7 +119,7 @@ if ($_POST) {
 							$pattern .= '\*/';
 						} elseif ($found == '[') {
 							$pattern .= ']';
-						} elseif (preg_match('~^-- |^#~', $found)) {
+						} elseif (preg_match("~^$line_comment|^#~", $found)) {
 							$pattern .= "\n";
 						} else {
 							$pattern .= preg_quote($found) . ($c_style_escapes ? "|\\\\." : "");
@@ -133,7 +140,7 @@ if ($_POST) {
 
 					} else { // end of a query
 						$empty = false;
-						$q = substr($query, 0, $pos + strlen($delimiter));
+						$q = substr($query, 0, $pos + $delimiter_length);
 						$commands++;
 						$print = "<pre id='sql-$commands'><code class='jush-" . DIALECT . "'>" . Admin::get()->formatSqlCommandQuery(trim($q)) . "</code></pre>\n";
 						if (DIALECT == "sqlite" && preg_match("~^$space*+ATTACH\\b~i", $q, $match)) {
@@ -341,7 +348,7 @@ if (!isset($_GET["import"]) && $history) {
 		$key = key($history);
 		list($q, $time, $elapsed) = $val;
 
-		echo " <pre><code class='jush-" . DIALECT . "'>", truncate_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace('~^(#|-- ).*~m', '', $q))))), "</code></pre>";
+		echo " <pre><code class='jush-" . DIALECT . "'>", truncate_utf8(ltrim(str_replace("\n", " ", str_replace("\r", "", preg_replace("~^(#|$line_comment).*~m", '', $q))))), "</code></pre>";
 		echo '<p class="links">';
 		echo "<a href='" . h(ME . "sql=&history=$key") . "'>" . icon("edit") . lang('Edit') . "</a>";
 		echo " <span class='time' title='" . @date('Y-m-d', $time) . "'>" . @date("H:i:s", $time) . // @ - time zone may be not set

@@ -1,6 +1,24 @@
 Changelog
 =========
 
+AdminNeo 5.4.0
+--------------
+
+### Changes
+
+- Do not edit NULL values by Modify (by @vrana)
+- Do not highlight table with name "0" as active everywhere (by @vrana)
+- PostgreSQL: Support COPY FROM stdin in SQL query (by @vrana)
+- MS SQL: Limit one INSERT in export to 1000 rows (by @vrana)
+- non-MySQL: Parse '--' without trailing space as comment in SQL command (by @vrana)
+
+### Bugfixes
+
+- Fix highlighting current table in menu when editing Check and View (by @vrana)
+- PostgreSQL PDO: Fix bytea without primary key (by @vrana)
+
+(Ported relevant changes from Adminer 5.2.0-5.2.1.)
+
 AdminNeo 5.3.0 (2026-05-07)
 ---------------------------
 
