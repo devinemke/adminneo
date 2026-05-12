@@ -177,7 +177,7 @@
 <tr><td>clickAndWait</td><td>link=New item</td><td></td></tr>
 <tr><td>type</td><td>fields[interpret]</td><td>0</td></tr>
 <tr><td>click</td><td>//input[@value='Save']</td><td></td></tr>
-<tr><td>verifyTextPresent</td><td>Check constraint 'albums_interpret_check' is violated.<datalist><option>Check constraint 'albums_interpret_check' is violated.</option></datalist></td><td></td></tr>
+<tr><td>verifyTextPresent</td><td>Check constraint 'albums_interpret_check' is violated.</td><td></td></tr>
 <tr><td>open</td><td>/adminneo/tests/admin-devel.php?mysql=127.0.0.1%3A3307&username=test&db=adminneo_test&check=albums&name=albums_interpret_check</td><td></td></tr>
 <tr><td>verifyTextPresent</td><td>`interpret` > 0</td><td></td></tr>
 <tr><td>chooseOkOnNextConfirmation</td><td>Drop albums_interpret_check?</td><td></td></tr>

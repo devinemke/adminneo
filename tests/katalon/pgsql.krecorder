@@ -26,7 +26,7 @@
 <tr><td rowspan="1" colspan="3">Create table</td></tr>
 </thead>
 <tbody>
-<tr><td>open</td><td>/adminneo/tests/admin-devel.php?pgsql=&username=test&db=adminneo_test&ns=public<datalist><option>/adminneo/tests/admin-devel.php?pgsql=&username=test&db=adminneo_test&ns=public</option></datalist></td><td></td></tr>
+<tr><td>open</td><td>/adminneo/tests/admin-devel.php?pgsql=&username=test&db=adminneo_test&ns=public</td><td></td></tr>
 <tr><td>clickAndWait</td><td>link=Create table</td><td></td></tr>
 <tr><td>type</td><td>name</td><td>interprets</td></tr>
 <tr><td>type</td><td>fields[1][field]</td><td>id</td></tr>
@@ -240,7 +240,7 @@
 <tr><td>clickAndWait</td><td>//input[@value='Drop']</td><td></td></tr>
 <tr><td>verifyTextPresent</td><td>cannot drop type</td><td></td></tr>
 <tr><td>open</td><td>/adminneo/tests/admin-devel.php?pgsql=&username=test&db=adminneo_test&ns=public&edit=interprets&where%5Bid%5D=1</td><td></td></tr>
-<tr><td>click</td><td>//input[@value='deceased']<datalist><option>//input[@value='deceased']</option></datalist></td><td></td></tr>
+<tr><td>click</td><td>//input[@value='deceased']</td><td></td></tr>
 <tr><td>clickAndWait</td><td>//input[@value='Save']</td><td></td></tr>
 <tr><td>verifyTextPresent</td><td>deceased</td><td></td></tr>
 </tbody></table>
@@ -323,8 +323,8 @@
 </thead>
 <tbody>
 <tr><td>open</td><td>/adminneo/tests/admin-devel.php?pgsql=&username=test&db=adminneo_test&ns=public&dump=</td><td></td></tr>
-<tr><td>click</td><td>css=input[name="output"][value="text"]<datalist><option>css=input[name="output"][value="text"]</option></datalist></td><td></td></tr>
-<tr><td>click</td><td>formatcss=input[name="format"][value="sql"]<datalist><option>format</option><option>formatcss=input[name="format"][value="sql"]</option></datalist></td><td></td></tr>
+<tr><td>click</td><td>css=input[name="output"][value="text"]</td><td></td></tr>
+<tr><td>click</td><td>css=input[name="format"][value="sql"]</td><td></td></tr>
 <tr><td>select</td><td>table_style</td><td>label=DROP+CREATE</td></tr>
 <tr><td>select</td><td>data_style</td><td>label=INSERT</td></tr>
 <tr><td>clickAndWait</td><td>//input[@value='Export']</td><td></td></tr>
@@ -390,7 +390,7 @@
 </thead>
 <tbody>
 <tr><td>open</td><td>/adminneo/tests/admin-devel.php?pgsql=&username=test&db=adminneo_test&ns=public</td><td></td></tr>
-<tr><td>click</td><td>link=Alter<datalist><option>link=albums_id_seq</option><option>link=Alter</option></datalist></td><td></td></tr>
+<tr><td>click</td><td>link=Alter</td><td></td></tr>
 <tr><td>type</td><td>name</td><td>albums_id_seq2</td></tr>
 <tr><td>clickAndWait</td><td>//input[@value='Save']</td><td></td></tr>
 <tr><td>verifyTextPresent</td><td>Sequence has been altered.</td><td></td></tr>
