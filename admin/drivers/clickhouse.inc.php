@@ -39,16 +39,21 @@ if (isset($_GET["clickhouse"])) {
 					return false;
 				}
 
-				if (!preg_match('~^HTTP/[0-9.]+ 2~i', $http_response_header[0])) {
-					foreach ($http_response_header as $header) {
-						if (preg_match('~^X-ClickHouse-Exception-Code:~i', $header)) {
-							$this->error = preg_replace('~\(version [^(]+\(.+$~', '', $file);
-
-							return false;
-						}
+				$isClickHouse = false;
+				foreach ($http_response_header as $header) {
+					if (preg_match('~^X-ClickHouse-Summary:~i', $header)) {
+						$isClickHouse = true;
+						break;
 					}
-
+				}
+				if (!$isClickHouse) {
 					$this->error = lang('Invalid server or credentials.');
+
+					return false;
+				}
+
+				if (!preg_match('~^HTTP/[0-9.]+ 2~i', $http_response_header[0])) {
+					$this->error = preg_replace('~\(version [^(]+\(.+$~', '', $file);
 
 					return false;
 				}
