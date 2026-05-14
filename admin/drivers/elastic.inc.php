@@ -45,6 +45,19 @@ if (isset($_GET["elastic"])) {
 					return false;
 				}
 
+				$isElastic = false;
+				foreach ($http_response_header as $header) {
+					// X-elastic-product is available from Elasticsearch 7.10.
+					if (strcasecmp($header, "X-elastic-product: Elasticsearch")) {
+						$isElastic = true;
+						break;
+					}
+				}
+				if (!$isElastic) {
+					$this->error = lang('Invalid server or credentials.');
+					return false;
+				}
+
 				$return = json_decode($file, true);
 				if ($return === null) {
 					$this->error = lang('Invalid server or credentials.');
